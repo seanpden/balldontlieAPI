@@ -1,0 +1,12 @@
+import os
+import json
+from dotenv import load_dotenv
+from balldontlie.balldontlie import BalldontlieAPI
+
+
+def main() -> None:
+    load_dotenv()
+    key = os.getenv("API_KEY")
+    api = BalldontlieAPI(key)
+    print(api.get_players(first_name="Anthony"))
+    # print(api.get_teams())

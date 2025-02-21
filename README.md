@@ -1,0 +1,5 @@
+- API requests
+- Tests
+- Models
+- Project structure
+- Makefile

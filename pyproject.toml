@@ -1,0 +1,22 @@
+[project]
+name = "balldontlie"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "seand", email = "sean.denney@mcleodsoftware.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.10.6",
+    "pytest>=8.3.4",
+    "python-dotenv>=1.0.1",
+    "requests>=2.32.3",
+]
+
+[project.scripts]
+balldontlie = "balldontlie:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
