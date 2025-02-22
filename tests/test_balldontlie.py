@@ -1,4 +1,3 @@
-from typing import List
 import pytest
 import os
 from dotenv import load_dotenv
@@ -42,7 +41,7 @@ def test_balldontlie_get_teams():
     teams = api.get_teams()
     assert teams
     assert teams.data
-    assert isinstance(teams.data, List)
+    assert isinstance(teams.data, list)
     assert isinstance(teams.data[0], Team)
     assert teams.data[0].id == 1
 
@@ -90,7 +89,7 @@ def test_balldontlie_get_players():
     players = api.get_players(last_name=search)
     assert players
     assert players.data
-    assert isinstance(players.data, List)
+    assert isinstance(players.data, list)
     assert isinstance(players.data[0], Player)
     assert players.data[0].last_name == search
 

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Generic, List, Optional, TypeVar
+from typing import Generic, TypeVar
 
 
 T = TypeVar("T")
@@ -20,23 +20,23 @@ class Player(BaseModel):
     first_name: str
     last_name: str
     position: str
-    height: Optional[str] = None
-    weight: Optional[str] = None
-    jersey_number: Optional[str] = None
-    college: Optional[str] = None
-    country: Optional[str] = None
-    draft_year: Optional[int] = None
-    draft_round: Optional[int] = None
-    draft_number: Optional[int] = None
+    height: str | None = None
+    weight: str | None = None
+    jersey_number: str | None = None
+    college: str | None = None
+    country: str | None = None
+    draft_year: int | None = None
+    draft_round: int | None = None
+    draft_number: int | None = None
     team: Team
 
 
 class Meta(BaseModel):
-    prev_cursor: Optional[int] = None
-    next_cursor: Optional[int] = None
+    prev_cursor: int | None = None
+    next_cursor: int | None = None
     per_page: int
 
 
 class APIResponse(BaseModel, Generic[T]):
-    data: List[T] | T
-    meta: Optional[Meta] = None
+    data: list[T] | T
+    meta: Meta | None = None

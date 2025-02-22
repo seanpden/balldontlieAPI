@@ -1,5 +1,5 @@
 import requests
-from typing import List, Optional
+from typing import Any
 from balldontlie.models import APIResponse, Player, Team
 
 
@@ -7,9 +7,9 @@ class BalldontlieAPI:
     def __init__(self, api_key: str | None) -> None:
         if not api_key:
             raise ValueError("api_key required!")
-        self._api_key = api_key
-        self._headers = {"Authorization": self._api_key}
-        self.base_url = "https://api.balldontlie.io/v1/"
+        self._api_key: str = api_key
+        self._headers: dict[str, str] = {"Authorization": self._api_key}
+        self.base_url: str = "https://api.balldontlie.io/v1/"
 
     def _check_for_errors(self, resp: requests.Response):
         if resp.status_code == 401:
@@ -47,7 +47,7 @@ class BalldontlieAPI:
                 f"{resp.status_code}: Service Unavailable -- We're temporarily offline for maintenance. Please try again later."
             )
 
-    def _get_teams(self) -> dict:
+    def _get_teams(self) -> dict[str, Any]:
         url: str = f"{self.base_url}/teams"
         resp = requests.get(url=url, headers=self._headers)
 
@@ -59,9 +59,8 @@ class BalldontlieAPI:
         teams = self._get_teams()
         return APIResponse[Team](**teams)
 
-    def _get_team(self, id: int) -> dict:
-        if not isinstance(id, int):
-            raise TypeError("Argument 'id' should be of type 'int'.")
+    def _get_team(self, id: int) -> dict[str, Any]:
+        assert isinstance(id, int)
 
         url: str = f"{self.base_url}/teams/{str(id)}"
         resp = requests.get(url=url, headers=self._headers)
@@ -76,13 +75,13 @@ class BalldontlieAPI:
 
     def _get_players(
         self,
-        cursor: Optional[int] = None,
-        search: Optional[str] = None,
-        first_name: Optional[str] = None,
-        last_name: Optional[str] = None,
-        team_ids: Optional[str] = None,
-        player_ids: Optional[str] = None,
-    ) -> dict:
+        cursor: int | None = None,
+        search: str | None = None,
+        first_name: str | None = None,
+        last_name: str | None = None,
+        team_ids: str | None = None,
+        player_ids: str | None = None,
+    ) -> dict[str, Any]:
         url: str = f"{self.base_url}/players"
         payload = {
             "cursor": cursor,
@@ -100,12 +99,12 @@ class BalldontlieAPI:
 
     def get_players(
         self,
-        cursor: Optional[int] = None,
-        search: Optional[str] = None,
-        first_name: Optional[str] = None,
-        last_name: Optional[str] = None,
-        team_ids: Optional[str] = None,
-        player_ids: Optional[str] = None,
+        cursor: int | None = None,
+        search: str | None = None,
+        first_name: str | None = None,
+        last_name: str | None = None,
+        team_ids: str | None = None,
+        player_ids: str | None = None,
     ) -> APIResponse[Player]:
         players = self._get_players(
             cursor, search, first_name, last_name, team_ids, player_ids
@@ -123,8 +122,8 @@ class BalldontlieAPI:
             )
 
             # For LSP to stop screaming
-            assert isinstance(next_page.data, List)
-            assert isinstance(players.data, List)
+            assert isinstance(next_page.data, list)
+            assert isinstance(players.data, list)
             assert next_page.meta
 
             players.data.extend(next_page.data)
@@ -132,9 +131,8 @@ class BalldontlieAPI:
 
         return players
 
-    def _get_player(self, id: int) -> dict:
-        if not isinstance(id, int):
-            raise TypeError("Argument 'id' should be of type 'int'.")
+    def _get_player(self, id: int) -> dict[str, Any]:
+        assert isinstance(id, int)
 
         url: str = f"{self.base_url}/players/{str(id)}"
         resp = requests.get(url=url, headers=self._headers)
